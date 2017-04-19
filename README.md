@@ -29,14 +29,14 @@ This code is freely available to you via the [WTFPL License](https://en.wikipedi
 Used to define a path that an object can travel along at specified world speed. Abstract class.  Child class must override AdvancePath and GetPosition according to the type of path.
 * **skyboxSpeed** Set to nonzero value to cause the skybox to rotate at a speed relative to movement of the camera along the x axis.
 * **playerCollideEdges** Set to true to automatically create 2D collision boxes at the edges of the screen which follow the camera.
-* **defaultNodeInfo** Default values to use at all points along the path where no info has been explicitly specified.  See ** AutoSideScrollNodeInfo **
+* **defaultNodeInfo** Default values to use at all points along the path where no info has been explicitly specified.  See **AutoSideScrollNodeInfo**
 * **fovChangeSpeed** The maximum rate (in degrees per second) at which the camera's FOV may change to match the values along the path.
 
 ***
 
 ### AutoSideScrollLinear ###
-Linear version of **AutoSideScrollPath**.  Will move directly from one node to the next at the rates specified by ** AutoSideScrollNodeInfo **
-* **path** The list of nodes from which the path is generated.  These nodes may or may not each contain ** AutoSideScrollNodeInfo ** to override the default values specified by the path.
+Linear version of **AutoSideScrollPath**.  Will move directly from one node to the next at the rates specified by **AutoSideScrollNodeInfo**
+* **path** The list of nodes from which the path is generated.  These nodes may or may not each contain **AutoSideScrollNodeInfo** to override the default values specified by the path.
 
 ### AutoSideScrollBezier ###
 Bezier spline version of **AutoSideScrollPath**.  Will move in a curved line from one node to the next at the rates specified by **AutoSideScrollNodeInfo**.  Depends on **BezierSpline** implementation [available on the Asset Store for free](https://www.assetstore.unity3d.com/en/#!/content/11278).
