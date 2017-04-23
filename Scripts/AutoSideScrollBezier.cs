@@ -83,6 +83,24 @@ public class AutoSideScrollBezier : AutoSideScrollPath {
 		}
 	}
 
+	// Get the z-axis angle of the path at the current position.
+	//
+	protected override float GetPathAngle ()
+	{
+		int pointIndex = Mathf.FloorToInt (t);
+		float pct = t - ((float)pointIndex);
+		BezierPoint[] points = curve.GetAnchorPoints ();
+
+		if (pct == 0f) {
+			return points [pointIndex].transform.eulerAngles.z;
+		} else {
+			Vector3 p1 = GetPosition (t);
+			Vector3 p2 = GetPosition (Mathf.Clamp(t+0.01f, 0.0f, (float)(curve.pointCount-1)));
+			float angle = Mathf.Atan2 (p2.y - p1.y, p2.x - p1.x);
+			return Mathf.Rad2Deg * angle;
+		}
+	}
+
 	// Get the scroll node info at the specified point index.
 	//
 	// pointIndex: Index of the point from which you're getting the scroll node info.

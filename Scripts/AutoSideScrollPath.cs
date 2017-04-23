@@ -22,15 +22,26 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 	public float fovChangeSpeed = 3.0f;
 
 	[Tooltip("Top speed (degrees/sec) at which the camera angle can change.")]
-	public float rotationChangeSpeed = 90.0f;
+	public float rotationChangeSpeed = 20.0f;
+
+	[Tooltip("True to have the rotation of the camera follow the rotation of the curve.")]
+	public bool rotationFollowCurve = false;
 
 	private Skybox skybox = null;
 	private float skyboxRotation = 0f;
 	private BoxCollider2D[] edgeCollision; // Starting from top, clockwise, ending on left.
 
+	// Moves the path forward at "speed" units per second with a time delta of "deltaTime".
 	protected abstract void AdvancePath (float speed, float deltaTime);
+
+	// Gets the current position on the path.
 	protected abstract Vector3 GetPosition();
+
+	// Gets the scroll info for the current position on the path.
 	protected abstract SideScrollNodeInfo GetCurrentScrollInfo ();
+
+	// Gets the angle of the path at the current position.
+	protected abstract float GetPathAngle ();
 
 	protected virtual void Start() {
 
@@ -140,7 +151,13 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 		// Values will have changed after advancing the path, so update.
 		info = GetCurrentScrollInfo ();
 		UpdateFOV (info.cameraFov);
-		UpdateRotation (info.camAngle);
+
+		if (rotationFollowCurve) {
+			UpdateRotation (GetPathAngle ());
+		} else {
+			UpdateRotation (info.camAngle);
+		}
+
 		UpdateEdgeCollision ();
 	}
 }

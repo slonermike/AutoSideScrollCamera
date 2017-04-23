@@ -57,6 +57,8 @@ public class AutoSideScrollLinear : AutoSideScrollPath {
 			}
 		}
 
+		t = Mathf.Clamp (t, 0f, (float)(path.Count - 1));
+
 		transform.position = GetPosition (t);
 	}
 
@@ -91,6 +93,36 @@ public class AutoSideScrollLinear : AutoSideScrollPath {
 		SideScrollNodeInfo p2 = GetInfoAtPoint(pointIndex + 1);
 		float pct = t - ((float)pointIndex);
 		return SideScrollNodeInfo.GetInterpolatedInfo (p1, p2, pct);
+	}
+
+	// Get the z-axis angle of the path at the current position.
+	//
+	protected override float GetPathAngle ()
+	{
+		int pointIndex = Mathf.FloorToInt (t);
+		return GetPathAngle (pointIndex);
+	}
+
+	float GetPathAngle(int nodeIndex)
+	{
+		if (nodeIndex < 0 || nodeIndex >= path.Count) {
+			Debug.LogError ("nodeIndex in GetPathAngle is invalid value: " + nodeIndex);
+			return 0f;
+		}
+
+		if (path.Count <= 1) {
+			return 0f;
+		}
+
+		// For the last point, use the values for the second-to-last point.
+		if (nodeIndex >= path.Count - 1) {
+			nodeIndex = path.Count - 2;
+		}
+
+		Vector3 p1 = path [nodeIndex].transform.position;
+		Vector3 p2 = path [nodeIndex+1].transform.position;
+
+		return Mathf.Atan2 (p2.y - p1.y, p2.x - p1.x) * Mathf.Rad2Deg;
 	}
 
 	// Get a position on the path at the specified tValue.
