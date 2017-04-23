@@ -11,6 +11,25 @@ public class SideScrollNodeInfo {
 	[Tooltip("Camera movement speed at this point along the path.")]
 	public float pathSpeed = 1.0f;
 
+	[Tooltip("Transform to use to determine the rotation of the camera (z axis only).")]
+	public GameObject orientObject = null;
+
+	private float _camAngle = 0f;
+	public float camAngle {
+		get {
+			if (orientObject == null) {
+				return _camAngle;
+			} else {
+				return orientObject.transform.eulerAngles.z;
+			}
+		}
+
+		set {
+			orientObject = null;
+			_camAngle = value;
+		}
+	}
+
 	// Create node values interpolated between p1 and p2.
 	//
 	// p1: The previous node.
@@ -23,6 +42,7 @@ public class SideScrollNodeInfo {
 		SideScrollNodeInfo info = new SideScrollNodeInfo ();
 		info.cameraFov = Mathf.Lerp (p1.cameraFov, p2.cameraFov, pct);
 		info.pathSpeed = Mathf.Lerp (p1.pathSpeed, p2.pathSpeed, pct);
+		info.camAngle = Mathf.Lerp (p1.camAngle, p2.camAngle, pct);
 
 		return info;
 	}

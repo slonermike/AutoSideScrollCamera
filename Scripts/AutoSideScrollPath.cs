@@ -116,6 +116,17 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 		Camera.main.fieldOfView = SloneUtil.AdvanceValue (Camera.main.fieldOfView, goalFov, fovChangeSpeed);
 	}
 
+	// Advance the rotation of the camera toward the specified goal.
+	//
+	// goalAngle: Angle (in degrees, 0-360) toward which to rotate the camera.
+	//
+	void UpdateRotation(float goalAngle)
+	{
+		Vector3 angles = Camera.main.transform.eulerAngles;
+		angles = new Vector3(angles.x, angles.y, SloneUtil.AdvanceAngle(angles.z, goalAngle, 20f));
+		Camera.main.transform.eulerAngles = angles;
+	}
+
 	protected virtual void Update() {
 		float oldX = transform.position.x;
 		SideScrollNodeInfo info = GetCurrentScrollInfo ();
@@ -126,6 +137,7 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 		// Values will have changed after advancing the path, so update.
 		info = GetCurrentScrollInfo ();
 		UpdateFOV (info.cameraFov);
+		UpdateRotation (info.camAngle);
 		UpdateEdgeCollision ();
 	}
 }
