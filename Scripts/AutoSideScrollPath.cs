@@ -137,18 +137,19 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 	void UpdateRotation(float goalAngle)
 	{
 		Vector3 angles = Camera.main.transform.eulerAngles;
-		angles = new Vector3(angles.x, angles.y, SloneUtil.AdvanceAngle(angles.z, goalAngle, rotationChangeSpeed));
-		Camera.main.transform.eulerAngles = angles;
+		Camera.main.transform.eulerAngles = new Vector3(angles.x, angles.y, SloneUtil.AdvanceAngle (angles.z, goalAngle, rotationChangeSpeed));
 	}
 
 	protected virtual void Update() {
-		float oldX = transform.position.x;
+		Vector3 oldPos = transform.position;
+		float oldRotation = transform.eulerAngles.z;
+
 		SideScrollNodeInfo info = GetCurrentScrollInfo ();
 
 		AdvancePath (info.pathSpeed, Time.deltaTime);
-		MoveSkybox( transform.position.x - oldX );
+		MoveSkybox( transform.position.x - oldPos.x );
 
-		// Values will have changed after advancing the path, so update.
+		// Values will have changed after advancing the path, so update FOV, rotation, etc.
 		info = GetCurrentScrollInfo ();
 		UpdateFOV (info.cameraFov);
 
@@ -157,6 +158,8 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 		} else {
 			UpdateRotation (info.camAngle);
 		}
+
+		AutoSideScrollFollower.MoveAll (Camera.main.transform.position - oldPos, Camera.main.transform.eulerAngles.z - oldRotation);
 
 		UpdateEdgeCollision ();
 	}
