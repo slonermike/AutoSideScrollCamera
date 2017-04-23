@@ -21,6 +21,9 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 	[Tooltip("Top speed at which the FOV can change.")]
 	public float fovChangeSpeed = 3.0f;
 
+	[Tooltip("Top speed (degrees/sec) at which the camera angle can change.")]
+	public float rotationChangeSpeed = 90.0f;
+
 	private Skybox skybox = null;
 	private float skyboxRotation = 0f;
 	private BoxCollider2D[] edgeCollision; // Starting from top, clockwise, ending on left.
@@ -123,7 +126,7 @@ public abstract class AutoSideScrollPath : MonoBehaviour {
 	void UpdateRotation(float goalAngle)
 	{
 		Vector3 angles = Camera.main.transform.eulerAngles;
-		angles = new Vector3(angles.x, angles.y, SloneUtil.AdvanceAngle(angles.z, goalAngle, 20f));
+		angles = new Vector3(angles.x, angles.y, SloneUtil.AdvanceAngle(angles.z, goalAngle, rotationChangeSpeed));
 		Camera.main.transform.eulerAngles = angles;
 	}
 
