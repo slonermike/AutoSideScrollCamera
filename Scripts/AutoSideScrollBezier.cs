@@ -62,7 +62,7 @@ public class AutoSideScrollBezier : AutoSideScrollPath {
 			pos = GetPosition (t);
 		}
 
-		t = Mathf.Clamp (t, 0.0f, (float)curve.pointCount);
+		t = Mathf.Clamp (t, 0.0f, (float)(curve.pointCount-1));
 		transform.position = SloneUtil.AdvanceValue (transform.position, pos, speed);
 	}
 

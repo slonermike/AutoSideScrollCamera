@@ -1,5 +1,5 @@
 # AutoSideScrollCamera
-Utility for creating camera paths for 2.5d games (3d objects in a 2d playspace) in Unity Engine.
+Utility for creating camera paths for 2d and 2.5d games (3d objects in a 2d playspace) in Unity Engine.
 
 ## License
 This code is freely available to you via the [WTFPL License](https://en.wikipedia.org/wiki/WTFPL)
